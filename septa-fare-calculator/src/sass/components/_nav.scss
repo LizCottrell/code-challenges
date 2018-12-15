@@ -1,0 +1,37 @@
+.nav {
+  background: $blue;
+  display: flex;
+  margin-bottom: 20px;
+  padding: 15px 0;
+
+  .nav__list {
+    display: flex;
+    margin: 0;
+  }
+
+  .nav__list-item {
+    color: $white;
+    font-size: 1.8em;
+    font-weight: 500;
+    padding: 10px;
+    transition: 0.2s ease;
+
+    a {
+      border-bottom: 2px solid rgba(0, 0, 0, 0);
+      color: $white;
+      display: block;
+      padding-bottom: 5px;
+
+      &.active {
+        border-bottom: 2px solid $white;
+        &:hover {
+          border-bottom: 2px solid lighten($blue, 50%);
+        }
+      }
+
+      &:hover {
+        color: lighten($blue, 50%);
+      }
+    }
+  }
+}

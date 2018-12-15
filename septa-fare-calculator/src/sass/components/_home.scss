@@ -1,0 +1,15 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    color: $purple;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  p {
+    max-width: 550px;
+  }
+}
