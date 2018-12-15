@@ -1,8 +1,12 @@
 .calculator__container {
+  margin: 30px auto;
+  max-width: 500px;
+}
+
+.calculator {
   background: $white;
   border: 2px solid $gray-3;
-  margin: 30px auto;
-  max-width: 700px;
+  margin: 15px;
 }
 
 .calculator__header {

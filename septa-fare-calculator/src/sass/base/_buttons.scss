@@ -1,0 +1,21 @@
+.button {
+  color: $white;
+  background: $blue;
+  border: 1px solid $blue;
+  border-radius: 15px;
+  font-size: 1.4em;
+  font-weight: 500;
+  margin: 10px auto;
+  padding: 3px 30px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.2s ease;
+  &:hover:enabled {
+    background: $white;
+    color: $blue;
+    text-decoration: none;
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+}

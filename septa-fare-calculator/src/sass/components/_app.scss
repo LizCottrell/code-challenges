@@ -1,34 +1,8 @@
-// fonts
-
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,500,700');
-
-// brand colors
-
-$blue: #1c4c71;
-$purple: #51245e;
-$orange: #ff3b00;
-
-// grayscale
-
-$black: #000000;
-$gray-1: #444;
-$gray-2: #7b807f;
-$gray-3: #dde6e5;
-$gray-4: #eff2f2;
-$gray-5: #f4fbfb;
-$white: #ffffff;
-
-// breakpoints
-$xs: 320px;
-$sm: 480px;
-$md: 768px;
-$lg: 1000px;
-$xl: 1200px;
-
 // global styles
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 html,
@@ -74,28 +48,6 @@ hr {
   margin: 0 auto;
   padding: 0 15px;
   width: -webkit-fill-available;
-}
-
-.button {
-  color: $white;
-  background: $blue;
-  border: 1px solid $blue;
-  border-radius: 15px;
-  font-size: 1.4em;
-  font-weight: 500;
-  margin: 10px auto;
-  padding: 3px 30px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.2s ease;
-  &:hover:enabled {
-    background: $white;
-    color: $blue;
-    text-decoration: none;
-  }
-  &:active {
-    transform: translateY(1px);
-  }
 }
 
 .sr-only {
