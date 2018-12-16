@@ -24,9 +24,11 @@ class Calculator extends React.Component {
     const name = target.name;
 
     if (value === 'anytime') {
+      // require advance purchase for anytime tickets
       this.setState({
         [name]: value,
-        selectedLocation: 'advance_purchase'
+        selectedLocation: 'advance_purchase',
+        selectedRides: '10'
       });
     } else {
       this.setState({
@@ -34,8 +36,6 @@ class Calculator extends React.Component {
       });
     }
   }
-
-  handleAnytimeSelection(event) {}
 
   render() {
     const {
@@ -50,7 +50,8 @@ class Calculator extends React.Component {
 
     let info = Object.entries(apiData.info);
 
-    let fare = zones.reduce(function(acc, zone) {
+    // calculate a single fare
+    let singleFare = zones.reduce(function(acc, zone) {
       if (zone.zone == selectedZone) {
         let currFares = zone.fares;
         let currFare = currFares.filter(currFare => {
@@ -62,12 +63,15 @@ class Calculator extends React.Component {
             return true;
           }
         });
-        let price = currFare[0].price;
-        return price.toFixed(2);
+        let price = currFare[0].price / currFare[0].trips;
+        return price;
       } else {
         return acc;
       }
     }, '');
+
+    // calculate total fare
+    let fare = (singleFare * selectedRides).toFixed(2);
 
     console.log(fare);
 
@@ -184,14 +188,25 @@ class Calculator extends React.Component {
                 </span>
                 <input
                   type="number"
-                  min="1"
+                  min={selectedTime === 'anytime' ? '10' : '1'}
                   max="100"
+                  step={selectedTime === 'anytime' ? '10' : '1'}
                   name="selectedRides"
                   className="form-control calculator__formfield--field"
                   value={this.state.selectedRides}
                   onChange={this.handleInputChange}
                 />
               </label>
+              {/* {selectedRides === '10' && !(selectedTime === 'anytime') && (
+                <p className="calculator__formfield--helper">
+                  A <strong>10-Trip Anytime Ticket</strong> strip could save you
+                  money.
+                  <span>
+                    Select 'Anytime' above to see potential savings. Advanced
+                    purchase only.
+                  </span>
+                </p>
+              )} */}
             </div>
           </form>
           <div className="calculator__formresult--wrapper">
