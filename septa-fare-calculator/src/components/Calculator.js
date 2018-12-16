@@ -1,14 +1,14 @@
 var React = require('react');
 var PropTypes = require('prop-types');
-var apiUtils = require('../utils/apiUtils');
-var faresJson = require('../data/fares');
 var logo = require('../assets/logo.svg');
 
 class Calculator extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      apiData: faresJson,
+      apiData: { info: {}, zones: [] },
+      isLoading: false,
+      error: null,
       selectedTime: 'weekday',
       selectedZone: '1',
       selectedLocation: 'onboard_purchase',
@@ -16,6 +16,26 @@ class Calculator extends React.Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({ isLoading: true });
+
+    fetch('http://localhost:3000/fares')
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Something went wrong ...');
+        }
+      })
+      .then(data =>
+        this.setState({
+          apiData: data,
+          isLoading: false
+        })
+      )
+      .catch(error => this.setState({ error, isLoading: false }));
   }
 
   handleInputChange(event) {
@@ -40,6 +60,8 @@ class Calculator extends React.Component {
   render() {
     const {
       apiData,
+      isLoading,
+      error,
       selectedTime,
       selectedZone,
       selectedLocation,
@@ -47,7 +69,6 @@ class Calculator extends React.Component {
     } = this.state;
 
     let zones = apiData.zones;
-
     let info = Object.entries(apiData.info);
 
     // calculate a single fare
@@ -73,8 +94,17 @@ class Calculator extends React.Component {
     // calculate total fare
     let fare = (singleFare * selectedRides).toFixed(2);
 
-    console.log(fare);
-
+    if (error) {
+      return <p className="error-message">{error.message}</p>;
+    }
+    if (isLoading) {
+      return (
+        <img
+          className="loading"
+          src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+        />
+      );
+    }
     return (
       <div className="calculator__container">
         <div className="calculator">

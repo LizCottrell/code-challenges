@@ -24,11 +24,16 @@ body {
 p {
   font-size: 1.6em;
   font-weight: 300;
+  margin-top: 0;
 }
 
 a {
-  text-decoration: none;
   color: $purple;
+  font-weight: 700;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 ul {
@@ -43,11 +48,30 @@ hr {
   width: 20%;
 }
 
+code {
+  display: inline-block;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  margin-left: 30px;
+}
+
 .container {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 15px;
   width: -webkit-fill-available;
+}
+
+.loading {
+  display: block;
+  margin: 20vh auto 0;
+  max-width: 400px;
+  width: 100%;
+}
+
+.error-message {
+  font-weight: 400;
+  text-align: center;
 }
 
 .sr-only {
