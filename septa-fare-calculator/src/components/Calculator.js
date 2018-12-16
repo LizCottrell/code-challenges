@@ -197,16 +197,12 @@ class Calculator extends React.Component {
                   onChange={this.handleInputChange}
                 />
               </label>
-              {/* {selectedRides === '10' && !(selectedTime === 'anytime') && (
+              {selectedTime === 'anytime' && (
                 <p className="calculator__formfield--helper">
-                  A <strong>10-Trip Anytime Ticket</strong> strip could save you
-                  money.
-                  <span>
-                    Select 'Anytime' above to see potential savings. Advanced
-                    purchase only.
-                  </span>
+                  <strong>Anytime Tickets</strong> are only available as 10-Trip
+                  strips. Advance purchase required.
                 </p>
-              )} */}
+              )}
             </div>
           </form>
           <div className="calculator__formresult--wrapper">
