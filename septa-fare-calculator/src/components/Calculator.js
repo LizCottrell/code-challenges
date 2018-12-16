@@ -9,7 +9,6 @@ class Calculator extends React.Component {
     super();
     this.state = {
       apiData: faresJson,
-      fare: 'this much',
       selectedTime: 'weekday',
       selectedZone: '1',
       selectedLocation: 'onboard_purchase',
@@ -32,7 +31,6 @@ class Calculator extends React.Component {
   render() {
     const {
       apiData,
-      fare,
       selectedTime,
       selectedZone,
       selectedLocation,
@@ -40,9 +38,28 @@ class Calculator extends React.Component {
     } = this.state;
 
     let zones = apiData.zones;
+
     let info = Object.entries(apiData.info);
-    // let purchaseLocation = ;
-    let selectedZoneData = apiData.zones[0].fares;
+
+    let fare = zones.reduce(function(acc, zone) {
+      if (zone.zone == selectedZone) {
+        let currFares = zone.fares;
+        let currFare = currFares.filter(currFare => {
+          if (
+            currFare.type === selectedTime &&
+            currFare.purchase === selectedLocation
+          ) {
+            return true;
+          }
+        });
+        let price = currFare[0].price;
+        return price.toFixed(2);
+      } else {
+        return acc;
+      }
+    }, '');
+
+    console.log(fare);
 
     return (
       <div className="calculator__container">
@@ -162,7 +179,7 @@ class Calculator extends React.Component {
           </form>
           <div className="calculator__formresult--wrapper">
             <p className="calculator__formresult">
-              Your fare will cost <span>{fare}</span>
+              Your fare will cost <span>${fare}</span>
             </p>
           </div>
         </div>
