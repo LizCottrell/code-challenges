@@ -9,12 +9,11 @@ class Calculator extends React.Component {
     super();
     this.state = {
       apiData: faresJson,
-      fare: '',
+      fare: 'this much',
       selectedTime: 'weekday',
       selectedZone: '1',
-      numberOfRides: '',
-      purchaseKiosk: true,
-      purchaseOnboard: false
+      selectedLocation: 'onboard_purchase',
+      selectedRides: '1'
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -22,7 +21,7 @@ class Calculator extends React.Component {
 
   handleInputChange(event) {
     const target = event.target;
-    const value = target.type === 'radio' ? target.checked : target.value;
+    const value = target.value;
     const name = target.name;
 
     this.setState({
@@ -36,12 +35,15 @@ class Calculator extends React.Component {
       fare,
       selectedTime,
       selectedZone,
-      numberOfRides,
-      purchaseKiosk,
-      purchaseOboard
+      selectedLocation,
+      selectedRides
     } = this.state;
+
     let zones = apiData.zones;
-    console.log(zones);
+    let info = Object.entries(apiData.info);
+    // let purchaseLocation = ;
+    let selectedZoneData = apiData.zones[0].fares;
+
     return (
       <div className="calculator__container">
         <div className="calculator">
@@ -83,13 +85,18 @@ class Calculator extends React.Component {
                   onChange={this.handleInputChange}
                 >
                   <option value="weekday">Weekdays</option>
-                  <option value="weekends">Weekends</option>
-                  <option value="mercedes">Evening</option>
+                  <option value="evening_weekend">Evenings/Weekends</option>
+                  <option value="anytime">Anytime</option>
                 </select>
               </label>
-              <p className="calculator__formfield--helper">
-                Helper text that explains the above options
-              </p>
+              {info.map(function(helperText, index) {
+                if (selectedTime === helperText[0])
+                  return (
+                    <p key={index} className="calculator__formfield--helper">
+                      {helperText[1]}
+                    </p>
+                  );
+              })}
             </div>
             <div className="calculator__formfield--wrapper">
               <fieldset className="calculator__formfield">
@@ -100,8 +107,11 @@ class Calculator extends React.Component {
                   <label className="calculator__formfield--field">
                     <input
                       type="radio"
-                      name="purchaseOnboard"
-                      checked={this.state.purchaseOnboard}
+                      name="selectedLocation"
+                      value="onboard_purchase"
+                      checked={
+                        this.state.selectedLocation === 'onboard_purchase'
+                      }
                       onChange={this.handleInputChange}
                     />
                     Onboard
@@ -112,14 +122,25 @@ class Calculator extends React.Component {
                   <label className="calculator__formfield--field">
                     <input
                       type="radio"
-                      name="purchaseKiosk"
-                      checked={this.state.purchaseKiosk}
+                      name="selectedLocation"
+                      value="advance_purchase"
+                      checked={
+                        this.state.selectedLocation === 'advance_purchase'
+                      }
                       onChange={this.handleInputChange}
                     />
                     Kiosk
                   </label>
                 </div>
               </fieldset>
+              {info.map(function(helperText, index) {
+                if (selectedLocation === helperText[0])
+                  return (
+                    <p key={index} className="calculator__formfield--helper">
+                      {helperText[1]}
+                    </p>
+                  );
+              })}
             </div>
 
             <div className="calculator__formfield--wrapper">
@@ -131,9 +152,9 @@ class Calculator extends React.Component {
                   type="number"
                   min="1"
                   max="100"
-                  name="numberOfRides"
+                  name="selectedRides"
                   className="form-control calculator__formfield--field"
-                  value={this.state.numberOfRides}
+                  value={this.state.selectedRides}
                   onChange={this.handleInputChange}
                 />
               </label>
@@ -141,7 +162,7 @@ class Calculator extends React.Component {
           </form>
           <div className="calculator__formresult--wrapper">
             <p className="calculator__formresult">
-              Your fare will cost <span>this much</span>
+              Your fare will cost <span>{fare}</span>
             </p>
           </div>
         </div>
