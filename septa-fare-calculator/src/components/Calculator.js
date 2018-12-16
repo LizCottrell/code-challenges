@@ -23,10 +23,19 @@ class Calculator extends React.Component {
     const value = target.value;
     const name = target.name;
 
-    this.setState({
-      [name]: value
-    });
+    if (value === 'anytime') {
+      this.setState({
+        [name]: value,
+        selectedLocation: 'advance_purchase'
+      });
+    } else {
+      this.setState({
+        [name]: value
+      });
+    }
   }
+
+  handleAnytimeSelection(event) {}
 
   render() {
     const {
@@ -46,6 +55,7 @@ class Calculator extends React.Component {
         let currFares = zone.fares;
         let currFare = currFares.filter(currFare => {
           if (
+            // ride time and purchase location match
             currFare.type === selectedTime &&
             currFare.purchase === selectedLocation
           ) {
@@ -121,11 +131,18 @@ class Calculator extends React.Component {
                   Where will you purchase the fare?
                 </legend>
                 <div className="radio">
-                  <label className="calculator__formfield--field">
+                  <label
+                    className={
+                      selectedTime === 'anytime'
+                        ? 'calculator__formfield--field disabled'
+                        : 'calculator__formfield--field'
+                    }
+                  >
                     <input
                       type="radio"
                       name="selectedLocation"
                       value="onboard_purchase"
+                      disabled={selectedTime === 'anytime'}
                       checked={
                         this.state.selectedLocation === 'onboard_purchase'
                       }
