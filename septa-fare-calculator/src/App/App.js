@@ -3,9 +3,9 @@ var ReactRouter = require('react-router-dom');
 var Router = ReactRouter.BrowserRouter;
 var Route = ReactRouter.Route;
 var Switch = ReactRouter.Switch;
-var Nav = require('./Nav');
-var Home = require('./Home');
-var Calculator = require('./Calculator');
+var Nav = require('../Nav/Nav');
+var Home = require('../Home/Home');
+var Calculator = require('../Calculator/Calculator');
 
 class App extends React.Component {
   render() {

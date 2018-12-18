@@ -1,5 +1,6 @@
 var React = require('react');
 var PropTypes = require('prop-types');
+var Select = require('./Select');
 var logo = require('../assets/logo.svg');
 
 class Calculator extends React.Component {
@@ -113,27 +114,13 @@ class Calculator extends React.Component {
             <h2 className="calculator__header--title">Regional Rail Fares</h2>
           </header>
           <form className="calculator__form">
-            <div className="calculator__formfield--wrapper">
-              <label className="calculator__formfield">
-                <span className="calculator__formfield--label">
-                  Where are you going?
-                </span>
-                <select
-                  className="form-control calculator__formfield--field"
-                  name="selectedZone"
-                  value={this.state.selectedZone}
-                  onChange={this.handleInputChange}
-                >
-                  {zones.map(function(zone, index) {
-                    return (
-                      <option key={index} value={zone.zone}>
-                        {zone.name}
-                      </option>
-                    );
-                  })}
-                </select>
-              </label>
-            </div>
+            <Select
+              text="Where are you going?"
+              selectedZone={selectedZone}
+              onSelect={this.handleInputChange}
+              zones={zones}
+            />
+
             <div className="calculator__formfield--wrapper">
               <label className="calculator__formfield">
                 <span className="calculator__formfield--label">
