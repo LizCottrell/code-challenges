@@ -1,7 +1,7 @@
 var React = require('react');
 var PropTypes = require('prop-types');
 
-function Select(props) {
+function SelectZone(props) {
   return (
     <div className="calculator__formfield--wrapper">
       <label className="calculator__formfield">
@@ -25,10 +25,11 @@ function Select(props) {
   );
 }
 
-Select.propTypes = {
+SelectZone.propTypes = {
+  text: PropTypes.string.isRequired,
   selectedZone: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,
   zones: PropTypes.array.isRequired
 };
 
-module.exports = Select;
+module.exports = SelectZone;

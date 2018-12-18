@@ -1,6 +1,10 @@
 var React = require('react');
 var PropTypes = require('prop-types');
-var Select = require('./Select');
+var SelectZone = require('./SelectZone');
+var SelectTime = require('./SelectTime');
+var SelectLocation = require('./SelectLocation');
+var SelectRides = require('./SelectRides');
+var Results = require('./Results');
 var logo = require('../assets/logo.svg');
 
 class Calculator extends React.Component {
@@ -114,119 +118,40 @@ class Calculator extends React.Component {
             <h2 className="calculator__header--title">Regional Rail Fares</h2>
           </header>
           <form className="calculator__form">
-            <Select
+            <SelectZone
               text="Where are you going?"
               selectedZone={selectedZone}
               onSelect={this.handleInputChange}
               zones={zones}
             />
 
-            <div className="calculator__formfield--wrapper">
-              <label className="calculator__formfield">
-                <span className="calculator__formfield--label">
-                  When are you riding?
-                </span>
-                <select
-                  className="form-control calculator__formfield--field"
-                  name="selectedTime"
-                  value={this.state.selectedTime}
-                  onChange={this.handleInputChange}
-                >
-                  <option value="weekday">Weekdays</option>
-                  <option value="evening_weekend">Evenings/Weekends</option>
-                  <option value="anytime">Anytime</option>
-                </select>
-              </label>
-              {info.map(function(helperText, index) {
-                if (selectedTime === helperText[0])
-                  return (
-                    <p key={index} className="calculator__formfield--helper">
-                      {helperText[1]}
-                    </p>
-                  );
-              })}
-            </div>
-            <div className="calculator__formfield--wrapper">
-              <fieldset className="calculator__formfield">
-                <legend className="calculator__formfield--label">
-                  Where will you purchase the fare?
-                </legend>
-                <div className="radio">
-                  <label
-                    className={
-                      selectedTime === 'anytime'
-                        ? 'calculator__formfield--field disabled'
-                        : 'calculator__formfield--field'
-                    }
-                  >
-                    <input
-                      type="radio"
-                      name="selectedLocation"
-                      value="onboard_purchase"
-                      disabled={selectedTime === 'anytime'}
-                      checked={
-                        this.state.selectedLocation === 'onboard_purchase'
-                      }
-                      onChange={this.handleInputChange}
-                    />
-                    Onboard
-                  </label>
-                </div>
+            <SelectTime
+              text="When are you riding?"
+              selectedTime={selectedTime}
+              onSelect={this.handleInputChange}
+              info={info}
+            />
 
-                <div className="radio">
-                  <label className="calculator__formfield--field">
-                    <input
-                      type="radio"
-                      name="selectedLocation"
-                      value="advance_purchase"
-                      checked={
-                        this.state.selectedLocation === 'advance_purchase'
-                      }
-                      onChange={this.handleInputChange}
-                    />
-                    Kiosk
-                  </label>
-                </div>
-              </fieldset>
-              {info.map(function(helperText, index) {
-                if (selectedLocation === helperText[0])
-                  return (
-                    <p key={index} className="calculator__formfield--helper">
-                      {helperText[1]}
-                    </p>
-                  );
-              })}
-            </div>
+            <SelectLocation
+              text="Where will you purchase the fare?"
+              selectedLocation={selectedLocation}
+              selectedTime={selectedTime}
+              onSelect={this.handleInputChange}
+              info={info}
+            />
 
-            <div className="calculator__formfield--wrapper">
-              <label className="calculator__formfield">
-                <span className="calculator__formfield--label">
-                  How many rides will you need?
-                </span>
-                <input
-                  type="number"
-                  min={selectedTime === 'anytime' ? '10' : '1'}
-                  max="100"
-                  step={selectedTime === 'anytime' ? '10' : '1'}
-                  name="selectedRides"
-                  className="form-control calculator__formfield--field"
-                  value={this.state.selectedRides}
-                  onChange={this.handleInputChange}
-                />
-              </label>
-              {selectedTime === 'anytime' && (
-                <p className="calculator__formfield--helper">
-                  <strong>Anytime Tickets</strong> are only available as 10-Trip
-                  strips. Advance purchase required.
-                </p>
-              )}
-            </div>
+            <SelectRides
+              text="How many rides will you need?"
+              selectedRides={selectedRides}
+              selectedTime={selectedTime}
+              onSelect={this.handleInputChange}
+              info={
+                '<strong>Anytime Tickets</strong> are only available as 10-Trip strips. Advance purchase required.'
+              }
+            />
           </form>
-          <div className="calculator__formresult--wrapper">
-            <p className="calculator__formresult">
-              Your fare will cost <span>${fare}</span>
-            </p>
-          </div>
+
+          <Results text="Your fare will cost" fare={fare} />
         </div>
       </div>
     );
